@@ -1,0 +1,178 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cream: #FFF9EC;
+  --bone: #FBF1DC;
+  --ink: #241638;
+}
+
+html, body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255, 107, 157, 0.10) 0, transparent 40%),
+    radial-gradient(circle at 82% 12%, rgba(123, 227, 181, 0.12) 0, transparent 42%),
+    radial-gradient(circle at 70% 88%, rgba(183, 156, 255, 0.12) 0, transparent 45%),
+    radial-gradient(circle at 18% 82%, rgba(255, 224, 102, 0.13) 0, transparent 40%);
+  background-attachment: fixed;
+}
+
+::selection { background: #FFE066; color: #241638; }
+
+/* retro card */
+.retro-card {
+  background: #fff;
+  border: 3px solid #241638;
+  border-radius: 18px;
+  box-shadow: 6px 6px 0 0 #241638;
+}
+.retro-card-sm {
+  background: #fff;
+  border: 3px solid #241638;
+  border-radius: 14px;
+  box-shadow: 4px 4px 0 0 #241638;
+}
+
+/* retro button */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 3px solid #241638;
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  font-family: "Space Grotesk", sans-serif;
+  background: #fff;
+  color: #241638;
+  box-shadow: 4px 4px 0 0 #241638;
+  transition: transform 80ms ease, box-shadow 80ms ease;
+  white-space: nowrap;
+}
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 0 #241638; }
+.btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 0 #241638; }
+.btn-pink   { background: #FF6B9D; color: #fff; }
+.btn-mint   { background: #7BE3B5; color: #241638; }
+.btn-lav    { background: #B79CFF; color: #fff; }
+.btn-peach  { background: #FFB58D; color: #241638; }
+.btn-sun    { background: #FFE066; color: #241638; }
+.btn-ink    { background: #241638; color: #fff; }
+.btn-ghost  { background: transparent; box-shadow: none; }
+.btn-ghost:hover { background: #fff; box-shadow: 4px 4px 0 0 #241638; }
+.btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; border-width: 2px; box-shadow: 3px 3px 0 0 #241638; border-radius: 10px; }
+.btn-sm:hover { box-shadow: 4px 4px 0 0 #241638; }
+.btn-sm:active { box-shadow: 1px 1px 0 0 #241638; }
+
+/* retro chip */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.7rem;
+  border: 2px solid #241638;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: "IBM Plex Mono", monospace;
+  background: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.chip-pink   { background: #FFC3DC; }
+.chip-mint   { background: #CFF5E2; }
+.chip-lav    { background: #E6DAFF; }
+.chip-peach  { background: #FFDCC4; }
+.chip-sun    { background: #FFF1A8; }
+.chip-sky    { background: #CDE6FF; }
+.chip-coral  { background: #FFC9C9; }
+.chip-lime   { background: #E7F8C2; }
+
+/* retro input */
+.field {
+  display: block;
+  width: 100%;
+  border: 3px solid #241638;
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+  background: #fff;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.95rem;
+  box-shadow: 3px 3px 0 0 #241638;
+  outline: none;
+}
+.field:focus { box-shadow: 5px 5px 0 0 #FF6B9D; border-color: #241638; }
+.label {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.4rem;
+  color: #3F2A66;
+  font-weight: 600;
+}
+
+/* sticker */
+.sticker {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  background: #FFE066;
+  color: #241638;
+  border: 2px solid #241638;
+  border-radius: 999px;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 3px 3px 0 0 #241638;
+  transform: rotate(-2deg);
+}
+
+/* table */
+.tbl {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.tbl th {
+  text-align: left;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #3F2A66;
+  padding: 0.7rem 1rem;
+  border-bottom: 3px solid #241638;
+  background: #FFF1A8;
+}
+.tbl td {
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid #E9DCC0;
+  font-size: 0.92rem;
+  vertical-align: middle;
+}
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tr:hover td { background: #FFF9EC; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: #FBF1DC; }
+::-webkit-scrollbar-thumb { background: #241638; border: 3px solid #FBF1DC; border-radius: 6px; }
+
+/* underline accent */
+.scribble {
+  background-image: linear-gradient(180deg, transparent 60%, #FFE066 60%, #FFE066 92%, transparent 92%);
+}
+.scribble-pink { background-image: linear-gradient(180deg, transparent 60%, #FFC3DC 60%, #FFC3DC 92%, transparent 92%); }
+.scribble-mint { background-image: linear-gradient(180deg, transparent 60%, #CFF5E2 60%, #CFF5E2 92%, transparent 92%); }
+.scribble-lav  { background-image: linear-gradient(180deg, transparent 60%, #E6DAFF 60%, #E6DAFF 92%, transparent 92%); }

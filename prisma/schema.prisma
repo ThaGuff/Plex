@@ -1,0 +1,142 @@
+// LeadLoop SaaS · Prisma schema
+//
+// Local dev: SQLite (file ./dev.db)
+// Production (Railway): switch `provider` to "postgresql" and set DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  passwordHash  String
+  name          String?
+  company       String?
+  role          String         @default("user") // "user" | "admin"
+  status        String         @default("active") // "active" | "suspended"
+  planId        String         @default("free")
+  plan          Plan           @relation(fields: [planId], references: [id])
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  lastLoginAt   DateTime?
+
+  searches      Search[]
+  savedLeads    SavedLead[]
+  sessions      Session[]
+  subscriptions Subscription[]
+}
+
+model Plan {
+  id              String         @id // "free" | "starter" | "pro" | "scale"
+  name            String
+  priceCents      Int            @default(0)
+  searchesPerMo   Int            @default(0)
+  exportsPerMo    Int            @default(0)
+  features        String         // JSON-encoded string array
+  highlight       Boolean        @default(false)
+  sortOrder       Int            @default(0)
+  users           User[]
+  subscriptions   Subscription[]
+}
+
+model Subscription {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planId        String
+  plan          Plan     @relation(fields: [planId], references: [id])
+  status        String   @default("active") // active|past_due|canceled
+  startedAt     DateTime @default(now())
+  renewsAt      DateTime?
+  canceledAt    DateTime?
+  amountCents   Int      @default(0)
+
+  @@index([userId])
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  ip        String?
+  userAgent String?
+
+  @@index([userId])
+}
+
+model Search {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  query     String   // human-readable summary
+  filters   String   // JSON-encoded filter object
+  results   Int      @default(0)
+  source    String   @default("apify") // "apify" | "mock"
+  createdAt DateTime @default(now())
+  leads     Lead[]
+
+  @@index([userId])
+}
+
+model Lead {
+  id           String      @id @default(cuid())
+  searchId     String
+  search       Search      @relation(fields: [searchId], references: [id], onDelete: Cascade)
+  externalId   String?     // Apify result id
+  name         String?
+  title        String?
+  company      String?
+  industry     String?
+  location     String?
+  email        String?
+  phone        String?
+  website      String?
+  linkedinUrl  String?
+  twitterUrl   String?
+  facebookUrl  String?
+  employees    String?
+  revenue      String?
+  description  String?
+  tags         String?     // JSON string array
+  score        Int         @default(0)
+  payload      String?     // raw JSON from Apify
+  createdAt    DateTime    @default(now())
+  saved        SavedLead[]
+
+  @@index([searchId])
+}
+
+model SavedLead {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  notes     String?
+  status    String   @default("new") // new|contacted|qualified|won|lost
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, leadId])
+  @@index([userId])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actor     String   // user id or "system"
+  action    String
+  detail    String?
+  meta      String?  // JSON
+  createdAt DateTime @default(now())
+
+  @@index([actor])
+}
